@@ -23,7 +23,7 @@
         name="viewModel" type="org.fs.mvvm.todo.viewmodels.AllFragmentViewModel" />
   </data>
 
-  <org.fs.mvvm.widget.RecyclerView
+  <android.support.v7.widget.RecyclerView
       android:theme="@style/Theme.AppCompat"
       android:layoutManager="@{viewModel.layoutManager}"
       android:itemAnimator="@{viewModel.itemAnimator}"
