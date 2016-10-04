@@ -1,0 +1,14 @@
+<resources>
+  <string name="app_name">todos</string>
+
+  <string name="hintEnterTodo">What needs to be done?</string>
+
+  <string name="recoverDeleteItem" formatted="false">Click %s to recover %s.</string>
+  <string name="addError">There is an error occur in add operation.</string>
+  <string name="enterTextError">Please enter valid item.</string>
+
+  <!-- titles for titlePagerStrip -->
+  <string name="titleAll">All</string>
+  <string name="titleActive">Active</string>
+  <string name="titleCompleted">Completed</string>
+</resources>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ * todos Copyright (C) 2016 Fatih.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <data>
+    <variable
+        name="viewModel" type="org.fs.mvvm.todo.viewmodels.MainActivityViewModel" />
+  </data>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:orientation="vertical"
+      android:layout_height="match_parent">
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+      <android.support.design.widget.TextInputEditText
+          android:imeOptions="actionDone"
+          android:inputType="text|textAutoCorrect|textCapSentences"
+          android:layout_width="match_parent"
+          android:isSelected="@{viewModel.requestTextViewFocus}"
+          android:hint="@string/hintEnterTodo"
+          android:text="@={viewModel.newTodo}"
+          android:onImeOptions="@{viewModel.imeOptionsCallback}"
+          android:layout_height="wrap_content" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:itemSource="@{viewModel.itemSource}"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+      <android.support.v4.view.PagerTitleStrip
+          android:layout_gravity="top"
+          style="@style/TextAppearance.AppCompat.Widget.ActionMode.Subtitle"
+          android:textColor="@color/title_strip_txt_state"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+
+    </android.support.v4.view.ViewPager>
+
+  </LinearLayout>
+
+</layout>

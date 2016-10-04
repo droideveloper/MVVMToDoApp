@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ * todos Copyright (C) 2016 Fatih.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ -->
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <data>
+    <import type="org.fs.mvvm.todo.entities.Entry" />
+    <variable
+        name="item" type="org.fs.mvvm.todo.entities.Entry" />
+  </data>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:minHeight="48dp"
+      android:orientation="horizontal"
+      android:layout_marginBottom="2dp"
+      android:padding="4dp"
+      android:background="@drawable/item_bg">
+
+      <android.support.v7.widget.AppCompatCheckBox
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:command="@{item.changeStateCommand}"
+          android:checked="@{item.todoState == Entry.COMPLETED}" />
+
+      <android.support.v7.widget.AppCompatTextView
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_marginStart="@dimen/defaultPadding"
+          android:layout_marginLeft="@dimen/defaultPadding"
+          android:theme="@style/Theme.AppCompat.Light"
+          style="@style/TextAppearance.AppCompat.Large"
+          android:fromObject="@{item}"
+          android:converter="@{item.entryToTextConverter}" />
+
+  </LinearLayout>
+
+</layout>

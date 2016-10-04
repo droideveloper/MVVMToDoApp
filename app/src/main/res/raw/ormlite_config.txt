@@ -1,0 +1,21 @@
+#
+# generated on 2016/10/04 06:33:30
+#
+# --table-start--
+dataClass=org.fs.mvvm.todo.entities.Entry
+tableName=entries
+# --table-fields-start--
+# --field-start--
+fieldName=todoId
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=todoName
+canBeNull=false
+# --field-end--
+# --field-start--
+fieldName=todoState
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
