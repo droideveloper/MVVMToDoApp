@@ -153,6 +153,7 @@ public final class ActiveFragmentViewModel extends AbstractViewModel<IActiveFrag
       BusManager.Unregister(eventListener);
       eventListener = null;
     }
+    usecase.unsubscribe();
   }
 
   private SwipeDeleteCallback.OnSwipedListener getSwipeListener() {
