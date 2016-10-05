@@ -61,7 +61,7 @@ public final class MainActivityViewModel extends AbstractViewModel<IMainActivity
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(x -> {
-            BusManager.Send(new AddEntryEvent(newTodo));
+            BusManager.Send(addEvent);
             setNewTodo(null);
           }, error -> {
             if (view.isAvailable()) {
