@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bindings="http://schemas.android.com/apk/res-auto">
 
   <data>
     <variable
@@ -34,10 +35,9 @@
           android:imeOptions="actionDone"
           android:inputType="text|textAutoCorrect|textCapSentences"
           android:layout_width="match_parent"
-          android:isSelected="@{viewModel.requestTextViewFocus}"
           android:hint="@string/hintEnterTodo"
           android:text="@={viewModel.newTodo}"
-          android:onImeOptions="@{viewModel.imeOptionsCallback}"
+          bindings:onSoftKeyboardAction="@{viewModel.imeOptionsCallback}"
           android:layout_height="wrap_content" />
 
     </android.support.design.widget.TextInputLayout>
@@ -45,7 +45,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:itemSource="@{viewModel.itemSource}"
+        bindings:itemSource="@{viewModel.itemSource}"
         android:layout_height="0dp"
         android:layout_weight="1">
 

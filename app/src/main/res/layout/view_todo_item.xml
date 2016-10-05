@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bindings="http://schemas.android.com/apk/res-auto"
+    >
 
   <data>
     <import type="org.fs.mvvm.todo.entities.Entry" />
@@ -35,7 +37,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
-          android:command="@{item.changeStateCommand}"
+          bindings:command="@{item.changeStateCommand}"
           android:checked="@{item.todoState == Entry.COMPLETED}" />
 
       <android.support.v7.widget.AppCompatTextView
@@ -46,8 +48,8 @@
           android:layout_marginLeft="@dimen/defaultPadding"
           android:theme="@style/Theme.AppCompat.Light"
           style="@style/TextAppearance.AppCompat.Large"
-          android:fromObject="@{item}"
-          android:converter="@{item.entryToTextConverter}" />
+          bindings:fromObject="@{item}"
+          bindings:converter="@{item.entryToTextConverter}" />
 
   </LinearLayout>
 

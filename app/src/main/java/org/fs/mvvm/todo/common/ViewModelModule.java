@@ -19,6 +19,7 @@ import android.content.Context;
 import android.databinding.ObservableList;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import dagger.Module;
 import dagger.Provides;
@@ -34,7 +35,6 @@ import org.fs.mvvm.todo.usecases.EntryAllUsecase;
 import org.fs.mvvm.todo.usecases.EntryCompletedUsecase;
 import org.fs.mvvm.todo.utils.SwipeDeleteCallback;
 import org.fs.mvvm.todo.views.adapters.EntryRecyclerAdapter;
-import org.fs.mvvm.widget.RecyclerView;
 
 @Module
 public class ViewModelModule {

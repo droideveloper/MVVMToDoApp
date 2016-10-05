@@ -22,7 +22,7 @@ import android.util.Log;
 import android.view.inputmethod.EditorInfo;
 import java.util.Locale;
 import org.fs.mvvm.data.AbstractViewModel;
-import org.fs.mvvm.listeners.OnImeOptions;
+import org.fs.mvvm.listeners.OnSoftKeyboardAction;
 import org.fs.mvvm.managers.BusManager;
 import org.fs.mvvm.todo.BR;
 import org.fs.mvvm.todo.BuildConfig;
@@ -48,7 +48,7 @@ public final class MainActivityViewModel extends AbstractViewModel<IMainActivity
   private IDatabaseManager dbManager;
 
   private ObservableList<Category> dataSource;
-  public final OnImeOptions imeOptionsCallback = (ime) ->  {
+  public final OnSoftKeyboardAction imeOptionsCallback = (ime) ->  {
     if (Objects.isNullOrEmpty(newTodo)) {
       String errorEnterText = view.getStringResource(R.string.enterTextError);
       view.showError(errorEnterText);

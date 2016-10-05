@@ -19,11 +19,13 @@ import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import java.util.List;
 import java.util.Locale;
 import javax.inject.Inject;
+import org.fs.mvvm.common.AbstractEntity;
 import org.fs.mvvm.data.AbstractViewModel;
 import org.fs.mvvm.data.IUsecase;
 import org.fs.mvvm.listeners.Callback;
@@ -44,7 +46,6 @@ import org.fs.mvvm.todo.utils.SwipeDeleteCallback;
 import org.fs.mvvm.todo.views.IAllFragmentView;
 import org.fs.mvvm.todo.views.adapters.EntryRecyclerAdapter;
 import org.fs.mvvm.utils.Objects;
-import org.fs.mvvm.widget.RecyclerView;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -64,6 +65,9 @@ public final class AllFragmentViewModel extends AbstractViewModel<IAllFragmentVi
 
   @Inject IUsecase<List<Entry>>      usecase;
   @Inject IDatabaseManager           dbManager;
+
+  private AbstractEntity selectedItem;
+  private int selectedPosition;
 
   public AllFragmentViewModel(IAllFragmentView view) {
     super(view);
@@ -237,6 +241,24 @@ public final class AllFragmentViewModel extends AbstractViewModel<IAllFragmentVi
   public void setLayoutManager(RecyclerView.LayoutManager layoutManager) {
     this.layoutManager = layoutManager;
     notifyPropertyChanged(BR.layoutManager);
+  }
+
+  @Bindable public int getSelectedPosition() {
+    return this.selectedPosition;
+  }
+
+  public void setSelectedPosition(int selectedPosition) {
+    this.selectedPosition = selectedPosition;
+    notifyPropertyChanged(BR.selectedPosition);
+  }
+
+  @Bindable public AbstractEntity getSelectedItem() {
+    return this.selectedItem;
+  }
+
+  public void setSelectedItem(AbstractEntity selectedItem) {
+    this.selectedItem = selectedItem;
+    notifyPropertyChanged(BR.selectedItem);
   }
 
   @Override protected boolean isLogEnabled() {

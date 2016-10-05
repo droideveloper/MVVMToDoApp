@@ -16,7 +16,9 @@
  * limitations under the License.
  */
  -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bindings="http://schemas.android.com/apk/res-auto"
+    >
 
   <data>
     <variable
@@ -25,10 +27,10 @@
 
   <android.support.v7.widget.RecyclerView
       android:theme="@style/Theme.AppCompat"
-      android:layoutManager="@{viewModel.layoutManager}"
-      android:itemAnimator="@{viewModel.itemAnimator}"
-      android:itemSource="@{viewModel.itemSource}"
-      android:touchHelper="@{viewModel.touchHelper}"
+      bindings:layoutManager="@{viewModel.layoutManager}"
+      bindings:itemAnimator="@{viewModel.itemAnimator}"
+      bindings:itemSource="@{viewModel.itemSource}"
+      bindings:touchHelper="@{viewModel.touchHelper}"
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
 
