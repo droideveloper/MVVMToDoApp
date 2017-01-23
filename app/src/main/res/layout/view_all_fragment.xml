@@ -30,7 +30,7 @@
       bindings:itemAnimator="@{viewModel.itemAnimator}"
       bindings:itemSource="@{viewModel.itemSource}"
       bindings:touchHelper="@{viewModel.touchHelper}"
-      bindings:itemPosition="@={viewModel.selectedPosition}"
+      bindings:position="@={viewModel.selectedPosition}"
       bindings:item="@={viewModel.selectedItem}"
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
