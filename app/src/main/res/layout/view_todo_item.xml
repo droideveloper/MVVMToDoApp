@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- * todos Copyright (C) 2016 Fatih.
+/*
+ * To-Do Copyright (C) 2016 Fatih.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +14,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ */
  -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:bindings="http://schemas.android.com/apk/res-auto"
-    >
+        xmlns:bindings="http://schemas.android.com/apk/res-auto">
 
   <data>
     <import type="org.fs.mvvm.todo.entities.Entry" />
@@ -31,6 +32,7 @@
       android:orientation="horizontal"
       android:layout_marginBottom="2dp"
       android:padding="4dp"
+      android:alpha="@{item.todoState == Entry.COMPLETED ? 0.4f : 1.0f}"
       android:background="@drawable/item_bg">
 
       <android.support.v7.widget.AppCompatCheckBox
@@ -38,6 +40,7 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
           bindings:command="@{item.changeStateCommand}"
+          android:alpha="@{item.todoState == Entry.COMPLETED ? 0.4f : 1.0f}"
           android:checked="@{item.todoState == Entry.COMPLETED}" />
 
       <android.support.v7.widget.AppCompatTextView
@@ -48,6 +51,8 @@
           android:layout_marginLeft="@dimen/defaultPadding"
           android:theme="@style/Theme.AppCompat.Light"
           style="@style/TextAppearance.AppCompat.Large"
+          android:textColor="@color/colorPrimaryText"
+          android:alpha="@{item.todoState == Entry.COMPLETED ? 0.4f : 1.0f}"
           bindings:fromObject="@{item}"
           bindings:converter="@{item.entryToTextConverter}" />
 

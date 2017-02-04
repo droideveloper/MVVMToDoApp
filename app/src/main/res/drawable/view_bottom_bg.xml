@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- * todos Copyright (C) 2016 Fatih.
+/*
+ * To-Do Copyright (C) 2017 Fatih.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +14,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ */
  -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-      <shape android:shape="rectangle">
-        <stroke android:color="@color/colorStroke"
-                android:width="1dp" />
-        <solid android:color="@android:color/white" />
-      </shape>
-    </item>
-  <item android:bottom="1dp">
+  <item android:left="10dp" android:right="10dp">
     <shape android:shape="rectangle">
+      <stroke android:color="@color/colorStroke" android:width="1dp" />
+      <solid android:color="@android:color/white" />
+    </shape>
+  </item>
+  <item android:left="5dp" android:right="5dp" android:bottom="5dp">
+    <shape android:shape="rectangle">
+      <stroke android:color="@color/colorStroke" android:width="1dp" />
+      <solid android:color="@android:color/white" />
+    </shape>
+  </item>
+  <item android:bottom="10dp">
+    <shape android:shape="rectangle">
+      <stroke android:color="@color/colorStroke" android:width="1dp" />
       <solid android:color="@android:color/white" />
     </shape>
   </item>

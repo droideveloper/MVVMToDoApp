@@ -49,14 +49,12 @@ public final class DatabaseManager extends AbstractOrmliteHelper
   }
 
   @Override public Observable<List<Entry>> all() {
-    createIfEntryDaoIsNull();
-    return Observable.just(entryDao)
+    return Observable.just(createIfEntryDaoIsNull())
         .map(RuntimeExceptionDao::queryForAll);
   }
 
   @Override public Observable<List<Entry>> all(Predicate<Entry> filter) {
-    createIfEntryDaoIsNull();
-    return Observable.just(entryDao)
+    return Observable.just(createIfEntryDaoIsNull())
         .map(RuntimeExceptionDao::queryForAll)
         .flatMap(Observable::from)
         .filter(filter::test)
@@ -71,20 +69,17 @@ public final class DatabaseManager extends AbstractOrmliteHelper
   }
 
   @Override public Observable<Boolean> create(Entry entry) {
-    createIfEntryDaoIsNull();
-    return Observable.just(entryDao)
+    return Observable.just(createIfEntryDaoIsNull())
         .map(dao -> dao.createOrUpdate(entry).isCreated());
   }
 
   @Override public Observable<Boolean> update(Entry entry) {
-    createIfEntryDaoIsNull();
-    return Observable.just(entryDao)
+    return Observable.just(createIfEntryDaoIsNull())
         .map(dao -> dao.createOrUpdate(entry).isUpdated());
   }
 
   @Override public Observable<Boolean> delete(Entry entry) {
-    createIfEntryDaoIsNull();
-    return Observable.just(entryDao)
+    return Observable.just(createIfEntryDaoIsNull())
         .map(dao -> dao.delete(entry) == 1);
   }
 
@@ -96,9 +91,10 @@ public final class DatabaseManager extends AbstractOrmliteHelper
     return DatabaseManager.class.getSimpleName();
   }
 
-  private void createIfEntryDaoIsNull() {
+  private RuntimeExceptionDao<Entry, Integer> createIfEntryDaoIsNull() {
     if (entryDao == null) {
       entryDao = getRuntimeExceptionDao(Entry.class);
     }
+    return entryDao;
   }
 }

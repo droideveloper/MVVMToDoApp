@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">todos</string>
+  <string name="app_name">To-Do</string>
 
   <string name="hintEnterTodo">What needs to be done?</string>
 

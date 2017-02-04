@@ -40,7 +40,7 @@ dependencies {
 
   compile project(':mvvm')
 
-  compile 'com.android.support:appcompat-v7:25.1.0'
+  compile 'com.android.support:appcompat-v7:25.1.1'
   testCompile 'junit:junit:4.12'
 
   apt 'com.google.dagger:dagger-compiler:2.7'

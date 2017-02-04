@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="colorLightGray">#CCCCCC</color>
+  <color name="colorPrimaryText">#333333</color>
+  <color name="colorSecondaryText">#888888</color>
+  <color name="colorViewBackground">#F5F5F5</color>
+  <color name="colorStroke">#D9D9D9</color>
 </resources>
