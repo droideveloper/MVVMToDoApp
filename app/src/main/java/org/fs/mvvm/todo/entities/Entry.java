@@ -37,6 +37,8 @@ import org.fs.mvvm.todo.BR;
 @DatabaseTable(tableName = "entries")
 public final class Entry extends AbstractEntity {
 
+  private String binding = "binding=padding, relativeSource={source=padding, ancestor={typeof=LinearLayout, level=1}}";
+
   public final static int ACTIVE    = 0x01;
   public final static int COMPLETED = 0x02;
 
@@ -117,6 +119,14 @@ public final class Entry extends AbstractEntity {
     }
     todoState = input.readInt() == ACTIVE ? ACTIVE : COMPLETED;
     todoId = input.readInt();
+  }
+
+  @Bindable public String getBinding() {
+    return this.binding;
+  }
+
+  public void notifyChange() {
+    notifyPropertyChanged(BR.binding);
   }
 
   @Override public void writeToParcel(Parcel out, int flags) {

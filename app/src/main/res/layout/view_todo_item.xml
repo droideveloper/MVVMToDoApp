@@ -28,10 +28,9 @@
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:minHeight="48dp"
       android:orientation="horizontal"
       android:layout_marginBottom="2dp"
-      android:padding="4dp"
+      android:padding="16dp"
       android:alpha="@{item.todoState == Entry.COMPLETED ? 0.4f : 1.0f}"
       android:background="@drawable/item_bg">
 
@@ -44,6 +43,8 @@
           android:checked="@{item.todoState == Entry.COMPLETED}" />
 
       <android.support.v7.widget.AppCompatTextView
+          android:id="@+id/titleText"
+          bindings:bind="@{item.binding}"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
