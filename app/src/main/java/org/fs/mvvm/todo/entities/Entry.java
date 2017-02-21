@@ -16,6 +16,8 @@
 package org.fs.mvvm.todo.entities;
 
 import android.databinding.Bindable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.support.annotation.IntDef;
 import android.text.SpannableString;
@@ -25,19 +27,20 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Locale;
 import org.fs.mvvm.commands.RelayCommand;
 import org.fs.mvvm.common.AbstractEntity;
 import org.fs.mvvm.data.IConverter;
 import org.fs.mvvm.managers.BusManager;
+import org.fs.mvvm.todo.BR;
 import org.fs.mvvm.todo.BuildConfig;
 import org.fs.mvvm.todo.events.StateChangeEvent;
 import org.fs.mvvm.utils.Objects;
-import org.fs.mvvm.todo.BR;
 
 @DatabaseTable(tableName = "entries")
 public final class Entry extends AbstractEntity {
 
-  private String binding = "binding=padding, relativeSource={source=padding, ancestor={typeof=LinearLayout, level=1}}";
+  public final IConverter<Integer, Drawable> colorDrawableParser = (Integer color, Locale locale) -> new ColorDrawable(color);
 
   public final static int ACTIVE    = 0x01;
   public final static int COMPLETED = 0x02;
@@ -119,14 +122,6 @@ public final class Entry extends AbstractEntity {
     }
     todoState = input.readInt() == ACTIVE ? ACTIVE : COMPLETED;
     todoId = input.readInt();
-  }
-
-  @Bindable public String getBinding() {
-    return this.binding;
-  }
-
-  public void notifyChange() {
-    notifyPropertyChanged(BR.binding);
   }
 
   @Override public void writeToParcel(Parcel out, int flags) {

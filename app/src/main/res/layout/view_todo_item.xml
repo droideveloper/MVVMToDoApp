@@ -30,7 +30,7 @@
       android:layout_height="wrap_content"
       android:orientation="horizontal"
       android:layout_marginBottom="2dp"
-      android:padding="16dp"
+      android:padding="4dp"
       android:alpha="@{item.todoState == Entry.COMPLETED ? 0.4f : 1.0f}"
       android:background="@drawable/item_bg">
 
@@ -40,11 +40,11 @@
           android:layout_gravity="center_vertical"
           bindings:command="@{item.changeStateCommand}"
           android:alpha="@{item.todoState == Entry.COMPLETED ? 0.4f : 1.0f}"
-          android:checked="@{item.todoState == Entry.COMPLETED}" />
+          android:checked="@{item.todoState == Entry.COMPLETED}"
+          bindings:bind='@{"binding=background, relativeSource={source=textColor, ancestor={typeof=TextView, level=1}}"}'
+          bindings:parser="@{item.colorDrawableParser}" />
 
       <android.support.v7.widget.AppCompatTextView
-          android:id="@+id/titleText"
-          bindings:bind="@{item.binding}"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"

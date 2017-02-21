@@ -17,6 +17,7 @@ package org.fs.mvvm.todo.common;
 
 import dagger.Module;
 import dagger.Provides;
+import org.fs.mvvm.data.IView;
 import org.fs.mvvm.injections.ForActivity;
 import org.fs.mvvm.todo.viewmodels.MainActivityViewModel;
 import org.fs.mvvm.todo.views.IMainActivityView;
@@ -25,7 +26,7 @@ import org.fs.mvvm.utils.Objects;
 @Module
 public class ActivityModule {
 
-  @Provides @ForActivity public MainActivityViewModel provideMainActivityViewModel(Object view) {
+  @Provides @ForActivity public MainActivityViewModel provideMainActivityViewModel(IView view) {
     IMainActivityView iview = Objects.toObject(view);
     return new MainActivityViewModel(iview);
   }

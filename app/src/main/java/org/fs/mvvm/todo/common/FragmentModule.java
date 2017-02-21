@@ -17,6 +17,7 @@ package org.fs.mvvm.todo.common;
 
 import dagger.Module;
 import dagger.Provides;
+import org.fs.mvvm.data.IView;
 import org.fs.mvvm.injections.ForFragment;
 import org.fs.mvvm.todo.viewmodels.ActiveFragmentViewModel;
 import org.fs.mvvm.todo.viewmodels.AllFragmentViewModel;
@@ -29,17 +30,17 @@ import org.fs.mvvm.utils.Objects;
 @Module
 public class FragmentModule {
 
-  @Provides @ForFragment AllFragmentViewModel provideAllFragmentViewModel(Object view)  {
+  @Provides @ForFragment AllFragmentViewModel provideAllFragmentViewModel(IView view)  {
     IAllFragmentView iview = Objects.toObject(view);
     return new AllFragmentViewModel(iview);
   }
 
-  @Provides @ForFragment ActiveFragmentViewModel provideActiveFragmentViewModel(Object view) {
+  @Provides @ForFragment ActiveFragmentViewModel provideActiveFragmentViewModel(IView view) {
     IActiveFragmentView iview = Objects.toObject(view);
     return new ActiveFragmentViewModel(iview);
   }
 
-  @Provides @ForFragment CompletedFragmentViewModel provideCompletedFragmentViewModel(Object view) {
+  @Provides @ForFragment CompletedFragmentViewModel provideCompletedFragmentViewModel(IView view) {
     ICompletedFragmentView iview = Objects.toObject(view);
     return new CompletedFragmentViewModel(iview);
   }
