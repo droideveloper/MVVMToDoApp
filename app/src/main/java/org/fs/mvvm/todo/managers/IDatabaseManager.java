@@ -15,18 +15,19 @@
  */
 package org.fs.mvvm.todo.managers;
 
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import java.util.List;
 import java8.util.function.Predicate;
 import org.fs.mvvm.todo.entities.Entry;
-import rx.Observable;
 
 public interface IDatabaseManager {
 
   Observable<List<Entry>> all();
 
-  Observable<List<Entry>> all(Predicate<Entry> filter);
+  Single<List<Entry>> all(Predicate<Entry> filter);
 
-  Observable<Entry> firstOrDefault(Predicate<Entry> filter);
+  Single<Entry> firstOrDefault(Predicate<Entry> filter);
 
   Observable<Boolean> create(Entry entry);
 

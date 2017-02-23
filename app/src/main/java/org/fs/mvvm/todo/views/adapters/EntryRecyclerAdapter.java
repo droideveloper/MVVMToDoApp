@@ -30,14 +30,9 @@ import org.fs.mvvm.todo.views.viewholders.EntryRecyclerViewHolder;
 public final class EntryRecyclerAdapter
     extends AbstractRecyclerBindingAdapter<Entry, EntryRecyclerViewHolder> {
 
-  public static EntryRecyclerAdapter createSingleMode(Context context,
+  public static EntryRecyclerAdapter create(Context context,
       ObservableList<Entry> itemSource) {
     return new EntryRecyclerAdapter(context, itemSource, SINGLE_SELECTION_MODE);
-  }
-
-  public static EntryRecyclerAdapter createMultipleMode(Context context,
-      ObservableList<Entry> itemSource) {
-    return new EntryRecyclerAdapter(context, itemSource, MULTIPLE_SELECTION_MODE);
   }
 
   private EntryRecyclerAdapter(Context context, ObservableList<Entry> itemSource,

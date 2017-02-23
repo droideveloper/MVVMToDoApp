@@ -15,6 +15,10 @@
  */
 package org.fs.mvvm.todo.usecases;
 
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import org.fs.mvvm.data.IUsecase;
 import org.fs.mvvm.listeners.Callback;
@@ -23,46 +27,42 @@ import org.fs.mvvm.todo.BuildConfig;
 import org.fs.mvvm.todo.entities.Entry;
 import org.fs.mvvm.todo.managers.IDatabaseManager;
 import org.fs.mvvm.utils.Preconditions;
-import rx.Observable;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
-public final class EntryCompletedUsecase extends AbstractManager implements IUsecase<List<Entry>> {
+public final class EntryCompletedUsecase extends AbstractManager implements IUsecase<List<Entry>, Single> {
 
-  private Subscription taskSubscription;
+  private Disposable disposable;
   private IDatabaseManager dbManager;
 
-  private EntryCompletedUsecase(IDatabaseManager dbManager) {
+  EntryCompletedUsecase(IDatabaseManager dbManager) {
     Preconditions.checkNotNull(dbManager, "dbManager is null");
     this.dbManager = dbManager;
   }
 
-  @Override public boolean isUnsubscribed() {
-    return taskSubscription == null || taskSubscription.isUnsubscribed();
+  @Override public boolean isDisposed() {
+    return disposable == null || disposable.isDisposed();
   }
 
   public Builder newBuilder() {
-    unsubscribe();
+    dispose();
     return new Builder()
         .dbManager(dbManager);
   }
 
-  @Override public void unsubscribe() {
-    if (!isUnsubscribed()) {
-      taskSubscription.unsubscribe();
-      taskSubscription = null;
+  @Override public void dispose() {
+    if (!isDisposed()) {
+      disposable.dispose();
+      disposable = null;
     }
   }
 
-  @Override public Observable<List<Entry>> sync() {
+  @Override public Single<List<Entry>> sync() {
     return dbManager.all(x -> x.getTodoState() == Entry.COMPLETED);
   }
 
   @Override public void async(Callback<List<Entry>> callback) {
-    taskSubscription = sync().subscribeOn(Schedulers.io())
+    disposable = sync().subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(callback::onSuccess, callback::onError, callback::onCompleted);
+        .subscribe(callback::onSuccess, callback::onError);
   }
 
   @Override protected boolean isLogEnabled() {

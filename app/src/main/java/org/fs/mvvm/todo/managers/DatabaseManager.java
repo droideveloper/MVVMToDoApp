@@ -19,6 +19,8 @@ import android.content.Context;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import java.sql.SQLException;
 import java.util.List;
 import java8.util.function.Predicate;
@@ -26,7 +28,6 @@ import org.fs.mvvm.common.AbstractOrmliteHelper;
 import org.fs.mvvm.todo.BuildConfig;
 import org.fs.mvvm.todo.R;
 import org.fs.mvvm.todo.entities.Entry;
-import rx.Observable;
 
 public final class DatabaseManager extends AbstractOrmliteHelper
     implements IDatabaseManager {
@@ -53,19 +54,19 @@ public final class DatabaseManager extends AbstractOrmliteHelper
         .map(RuntimeExceptionDao::queryForAll);
   }
 
-  @Override public Observable<List<Entry>> all(Predicate<Entry> filter) {
+  @Override public Single<List<Entry>> all(Predicate<Entry> filter) {
     return Observable.just(createIfEntryDaoIsNull())
         .map(RuntimeExceptionDao::queryForAll)
-        .flatMap(Observable::from)
+        .flatMap(Observable::fromIterable)
         .filter(filter::test)
         .toList();
   }
 
-  @Override public Observable<Entry> firstOrDefault(Predicate<Entry> filter) {
+  @Override public Single<Entry> firstOrDefault(Predicate<Entry> filter) {
     return all()
-        .flatMap(Observable::from)
+        .flatMap(Observable::fromIterable)
         .filter(filter::test)
-        .firstOrDefault(null);
+        .firstOrError();
   }
 
   @Override public Observable<Boolean> create(Entry entry) {

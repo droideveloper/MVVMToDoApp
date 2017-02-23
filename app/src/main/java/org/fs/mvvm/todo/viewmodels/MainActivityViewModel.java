@@ -20,6 +20,9 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableList;
 import android.util.Log;
 import android.view.inputmethod.EditorInfo;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import java.util.Locale;
 import org.fs.mvvm.data.AbstractViewModel;
 import org.fs.mvvm.listeners.OnSoftKeyboardAction;
@@ -35,16 +38,13 @@ import org.fs.mvvm.todo.managers.IDatabaseManager;
 import org.fs.mvvm.todo.views.IMainActivityView;
 import org.fs.mvvm.todo.views.adapters.CategoryStateAdapter;
 import org.fs.mvvm.utils.Objects;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public final class MainActivityViewModel extends AbstractViewModel<IMainActivityView> {
 
   private CategoryStateAdapter itemSource;
   private String newTodo;
 
-  private Subscription eventListener;
+  private Disposable disposable;
   private IDatabaseManager dbManager;
 
   private ObservableList<Category> dataSource;
@@ -61,7 +61,7 @@ public final class MainActivityViewModel extends AbstractViewModel<IMainActivity
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe(x -> {
-            BusManager.Send(addEvent);
+            BusManager.send(addEvent);
             setNewTodo(null);
           }, error -> {
             if (view.isAvailable()) {
@@ -92,7 +92,7 @@ public final class MainActivityViewModel extends AbstractViewModel<IMainActivity
       String titleCompleted = view.getStringResource(R.string.titleCompleted);
       dataSource.add(new Category(Category.COMPLETED, titleCompleted));
     }
-    eventListener = BusManager.Register((event) -> {
+    disposable = BusManager.add((event) -> {
       if (event instanceof StateChangeEvent) {
         StateChangeEvent stateEvent = Objects.toObject(event);
         if (stateEvent.isActive()) {
@@ -121,9 +121,9 @@ public final class MainActivityViewModel extends AbstractViewModel<IMainActivity
   }
 
   @Override public void onStop() {
-    if (eventListener != null) {
-      BusManager.Unregister(eventListener);
-      eventListener = null;
+    if (disposable != null) {
+      BusManager.remove(disposable);
+      disposable = null;
     }
   }
 

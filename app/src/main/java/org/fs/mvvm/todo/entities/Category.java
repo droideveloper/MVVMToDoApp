@@ -40,7 +40,7 @@ public class Category extends BaseObservable implements Parcelable {
   @CategoryID int categoryId;
   String categoryName;
 
-  private Category(Parcel input) {
+  Category(Parcel input) {
     int read = input.readInt();
     categoryId = read == ALL ? ALL : read == ACTIVE ? ACTIVE : COMPLETED;
     categoryName = input.readString();

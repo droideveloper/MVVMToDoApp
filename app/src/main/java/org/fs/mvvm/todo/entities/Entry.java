@@ -69,7 +69,7 @@ public final class Entry extends AbstractEntity {
    */
   public final RelayCommand changeStateCommand = new RelayCommand(() -> {
     setTodoState(todoState == ACTIVE ? COMPLETED : ACTIVE);
-    BusManager.Send(new StateChangeEvent(this));
+    BusManager.send(new StateChangeEvent(this));
   });
 
   Entry() {
@@ -78,11 +78,11 @@ public final class Entry extends AbstractEntity {
      */
   }
 
-  private Entry(Parcel input) {
+  Entry(Parcel input) {
     super(input);
   }
 
-  private Entry(String todoName, @EntryState int todoState) {
+  Entry(String todoName, @EntryState int todoState) {
     this.todoName = todoName;
     this.todoState = todoState;
   }

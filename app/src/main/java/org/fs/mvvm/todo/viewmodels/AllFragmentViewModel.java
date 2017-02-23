@@ -22,6 +22,10 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import java.util.List;
 import java.util.Locale;
 import javax.inject.Inject;
@@ -46,24 +50,21 @@ import org.fs.mvvm.todo.utils.SwipeDeleteCallback;
 import org.fs.mvvm.todo.views.IAllFragmentView;
 import org.fs.mvvm.todo.views.adapters.EntryRecyclerAdapter;
 import org.fs.mvvm.utils.Objects;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public final class AllFragmentViewModel extends AbstractViewModel<IAllFragmentView> {
 
   public final static String KEY_CATEGORY = "entry.category";
 
-  private Subscription eventListener;
+  private Disposable disposable;
   private Category category;
-  private ObservableList<Entry> dataSource;
+  ObservableList<Entry> dataSource = new ObservableArrayList<>();
 
   @Inject RecyclerView.LayoutManager layoutManager;
   @Inject RecyclerView.ItemAnimator  itemAnimator;
   @Inject EntryRecyclerAdapter       itemSource;
   @Inject ItemTouchHelper            touchHelper;
 
-  @Inject IUsecase<List<Entry>>      usecase;
+  @Inject IUsecase<List<Entry>, Observable>      usecase;
   @Inject IDatabaseManager           dbManager;
 
   private AbstractEntity selectedItem;
@@ -71,7 +72,6 @@ public final class AllFragmentViewModel extends AbstractViewModel<IAllFragmentVi
 
   public AllFragmentViewModel(IAllFragmentView view) {
     super(view);
-    this.dataSource = new ObservableArrayList<>();
   }
 
   @Override public void restoreState(Bundle restoreState) {
@@ -98,7 +98,7 @@ public final class AllFragmentViewModel extends AbstractViewModel<IAllFragmentVi
 
   @Override public void onStart() {
     if (view.isAvailable()) {
-      eventListener = BusManager.Register((event) -> {
+      disposable = BusManager.add((event) -> {
         if (event instanceof AddEntryEvent) {
           AddEntryEvent addEvent = Objects.toObject(event);
           //async add on non ui thread
@@ -154,11 +154,11 @@ public final class AllFragmentViewModel extends AbstractViewModel<IAllFragmentVi
   }
 
   @Override public void onStop() {
-    if (eventListener != null) {
-      BusManager.Unregister(eventListener);
-      eventListener = null;
+    if (disposable != null) {
+      BusManager.remove(disposable);
+      disposable = null;
     }
-    usecase.unsubscribe();
+    usecase.dispose();
   }
 
   private SwipeDeleteCallback.OnSwipedListener getSwipeListener() {
@@ -179,7 +179,7 @@ public final class AllFragmentViewModel extends AbstractViewModel<IAllFragmentVi
               );
             });
         //notify others
-        BusManager.Send(new DeletedEvent(deleted));
+        BusManager.send(new DeletedEvent(deleted));
         //create message to notify user
         String ok = view.getStringResource(android.R.string.ok);
         String msg = view.getStringResource(R.string.recoverDeleteItem);
@@ -196,7 +196,7 @@ public final class AllFragmentViewModel extends AbstractViewModel<IAllFragmentVi
               .subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())
               .subscribe(x -> {
-                BusManager.Send(new RecoveredEvent(deleted));
+                BusManager.send(new RecoveredEvent(deleted));
                 log(Log.ERROR,
                     String.format(Locale.ENGLISH, "%s previously deleted inserted.",
                         deleted.getTodoName())

@@ -23,6 +23,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import java.util.List;
 import org.fs.mvvm.data.IUsecase;
 import org.fs.mvvm.injections.ForFragment;
@@ -55,24 +57,30 @@ public class ViewModelModule {
     return new DatabaseManager(context);
   }
 
-  @Provides @ForFragment IUsecase<List<Entry>> provideUsecase(IDatabaseManager dbManager) {
-    if (categoryId == Category.ALL) {
-      return new EntryAllUsecase.Builder()
-          .dbManager(dbManager)
-          .build();
-    } else if (categoryId == Category.ACTIVE) {
+  @Provides @ForFragment IUsecase<List<Entry>, Single> provideUsecaseSingle(IDatabaseManager dbManager) {
+    if (categoryId == Category.ACTIVE) {
       return new EntryActiveUsecase.Builder()
           .dbManager(dbManager)
           .build();
-    } else {
+    } else if (categoryId == Category.COMPLETED) {
       return new EntryCompletedUsecase.Builder()
           .dbManager(dbManager)
           .build();
     }
+    return null;
+  }
+
+  @Provides @ForFragment IUsecase<List<Entry>, Observable> provideUsecaseObservable(IDatabaseManager dbManager) {
+    if (categoryId == Category.ALL) {
+      return new EntryAllUsecase.Builder()
+          .dbManager(dbManager)
+          .build();
+    }
+    return null;
   }
 
   @Provides @ForFragment EntryRecyclerAdapter provideRecyclerAdapter() {
-    return EntryRecyclerAdapter.createSingleMode(context, dataSource);
+    return EntryRecyclerAdapter.create(context, dataSource);
   }
 
   @Provides @ForFragment RecyclerView.LayoutManager provideLayoutManager() {
