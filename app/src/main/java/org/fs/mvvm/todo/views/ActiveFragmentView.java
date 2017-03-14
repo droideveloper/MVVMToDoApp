@@ -39,7 +39,7 @@ import org.fs.mvvm.utils.Objects;
 import org.fs.mvvm.utils.Preconditions;
 
 public final class ActiveFragmentView extends AbstractFragment<ActiveFragmentViewModel>
-    implements IActiveFragmentView {
+    implements ActiveFragmentViewType {
 
   @Inject ActiveFragmentViewModel viewModel;
   private ViewDataBinding viewDataBinding;

@@ -39,7 +39,7 @@ import org.fs.mvvm.utils.Objects;
 import org.fs.mvvm.utils.Preconditions;
 
 public final class CompletedFragmentView extends AbstractFragment<CompletedFragmentViewModel>
-    implements ICompletedFragmentView {
+    implements CompletedFragmentViewType {
 
   @Inject CompletedFragmentViewModel viewModel;
   private ViewDataBinding viewDataBinding;

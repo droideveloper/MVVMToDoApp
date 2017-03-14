@@ -28,19 +28,19 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Locale;
-import org.fs.mvvm.commands.RelayCommand;
+import org.fs.mvvm.commands.RelayCommandType;
 import org.fs.mvvm.common.AbstractEntity;
-import org.fs.mvvm.data.IConverter;
+import org.fs.mvvm.data.ConverterType;
 import org.fs.mvvm.managers.BusManager;
 import org.fs.mvvm.todo.BR;
 import org.fs.mvvm.todo.BuildConfig;
-import org.fs.mvvm.todo.events.StateChangeEvent;
+import org.fs.mvvm.todo.events.StateChangeEventType;
 import org.fs.mvvm.utils.Objects;
 
 @DatabaseTable(tableName = "entries")
 public final class Entry extends AbstractEntity {
 
-  public final IConverter<Integer, Drawable> colorDrawableParser = (Integer color, Locale locale) -> new ColorDrawable(color);
+  public final ConverterType<Integer, Drawable> colorDrawableParser = (Integer color, Locale locale) -> new ColorDrawable(color);
 
   public final static int ACTIVE    = 0x01;
   public final static int COMPLETED = 0x02;
@@ -53,7 +53,7 @@ public final class Entry extends AbstractEntity {
   @DatabaseField(canBeNull = false)  private String todoName;
   @DatabaseField @EntryState         private int todoState;
 
-  public final IConverter<Entry, SpannableString> entryToTextConverter = (o, l) -> {
+  public final ConverterType<Entry, SpannableString> entryToTextConverter = (o, l) -> {
     if (o == null) {
       return null;
     }
@@ -67,9 +67,9 @@ public final class Entry extends AbstractEntity {
   /**
    * this way I change my state of object
    */
-  public final RelayCommand changeStateCommand = new RelayCommand(() -> {
+  public final RelayCommandType changeStateCommand = new RelayCommandType(() -> {
     setTodoState(todoState == ACTIVE ? COMPLETED : ACTIVE);
-    BusManager.send(new StateChangeEvent(this));
+    BusManager.send(new StateChangeEventType(this));
   });
 
   Entry() {

@@ -31,15 +31,15 @@ import org.fs.mvvm.todo.BR;
 import org.fs.mvvm.todo.BuildConfig;
 import org.fs.mvvm.todo.R;
 import org.fs.mvvm.todo.entities.Category;
-import org.fs.mvvm.todo.events.AddEntryEvent;
-import org.fs.mvvm.todo.events.StateChangeEvent;
+import org.fs.mvvm.todo.events.AddEntryEventType;
+import org.fs.mvvm.todo.events.StateChangeEventType;
 import org.fs.mvvm.todo.managers.DatabaseManager;
 import org.fs.mvvm.todo.managers.IDatabaseManager;
-import org.fs.mvvm.todo.views.IMainActivityView;
+import org.fs.mvvm.todo.views.MainActivityViewType;
 import org.fs.mvvm.todo.views.adapters.CategoryStateAdapter;
 import org.fs.mvvm.utils.Objects;
 
-public final class MainActivityViewModel extends AbstractViewModel<IMainActivityView> {
+public final class MainActivityViewModel extends AbstractViewModel<MainActivityViewType> {
 
   private CategoryStateAdapter itemSource;
   private String newTodo;
@@ -56,7 +56,7 @@ public final class MainActivityViewModel extends AbstractViewModel<IMainActivity
     }
     int maskedImeAction = ime & EditorInfo.IME_MASK_ACTION;
     if (maskedImeAction == EditorInfo.IME_ACTION_DONE) {
-      AddEntryEvent addEvent = new AddEntryEvent(newTodo);
+      AddEntryEventType addEvent = new AddEntryEventType(newTodo);
       dbManager.create(addEvent.toEntry())
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
@@ -76,7 +76,7 @@ public final class MainActivityViewModel extends AbstractViewModel<IMainActivity
   };
   public final boolean requestTextViewFocus = false;
 
-  public MainActivityViewModel(IMainActivityView view) {
+  public MainActivityViewModel(MainActivityViewType view) {
     super(view);
     this.dataSource = new ObservableArrayList<>();
     this.itemSource = new CategoryStateAdapter(view.getSupportFragmentManager(), dataSource);
@@ -93,8 +93,8 @@ public final class MainActivityViewModel extends AbstractViewModel<IMainActivity
       dataSource.add(new Category(Category.COMPLETED, titleCompleted));
     }
     disposable = BusManager.add((event) -> {
-      if (event instanceof StateChangeEvent) {
-        StateChangeEvent stateEvent = Objects.toObject(event);
+      if (event instanceof StateChangeEventType) {
+        StateChangeEventType stateEvent = Objects.toObject(event);
         if (stateEvent.isActive()) {
           dbManager.update(stateEvent.toEntry())
               .subscribeOn(Schedulers.io())

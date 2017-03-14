@@ -20,19 +20,20 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
-import org.fs.mvvm.data.IUsecase;
+import org.fs.mvvm.data.UsecaseType;
 import org.fs.mvvm.listeners.Callback;
 import org.fs.mvvm.managers.AbstractManager;
 import org.fs.mvvm.todo.BuildConfig;
 import org.fs.mvvm.todo.entities.Entry;
 import org.fs.mvvm.todo.managers.IDatabaseManager;
 import org.fs.mvvm.utils.Preconditions;
-public final class EntryAllUsecase extends AbstractManager implements IUsecase<List<Entry>, Observable> {
+public final class EntryAllUsecaseType extends AbstractManager implements
+    UsecaseType<List<Entry>, Observable> {
 
   private Disposable disposable;
   private IDatabaseManager dbManager;
 
-  EntryAllUsecase(IDatabaseManager dbManager) {
+  EntryAllUsecaseType(IDatabaseManager dbManager) {
     Preconditions.checkNotNull(dbManager, "dbManager is null");
     this.dbManager = dbManager;
   }
@@ -69,15 +70,15 @@ public final class EntryAllUsecase extends AbstractManager implements IUsecase<L
   }
 
   @Override protected String getClassTag() {
-    return EntryAllUsecase.class.getSimpleName();
+    return EntryAllUsecaseType.class.getSimpleName();
   }
 
   public static class Builder {
     private IDatabaseManager dbManager;
     public Builder() { }
     public Builder dbManager(IDatabaseManager dbManager) { this.dbManager = dbManager; return this; }
-    public EntryAllUsecase build() {
-      return new EntryAllUsecase(dbManager);
+    public EntryAllUsecaseType build() {
+      return new EntryAllUsecaseType(dbManager);
     }
   }
 }

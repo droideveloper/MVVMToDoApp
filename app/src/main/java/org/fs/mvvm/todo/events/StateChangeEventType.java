@@ -15,15 +15,15 @@
  */
 package org.fs.mvvm.todo.events;
 
-import org.fs.mvvm.managers.IEvent;
+import org.fs.mvvm.managers.EventType;
 import org.fs.mvvm.todo.entities.Entry;
 import org.fs.mvvm.utils.Preconditions;
 
-public final class StateChangeEvent implements IEvent {
+public final class StateChangeEventType implements EventType {
 
   private final Entry entry;
 
-  public StateChangeEvent(Entry entry) {
+  public StateChangeEventType(Entry entry) {
     Preconditions.checkNotNull(entry, "entry is null");
     this.entry = entry;
   }

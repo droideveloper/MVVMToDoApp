@@ -31,7 +31,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 import org.fs.mvvm.common.AbstractEntity;
 import org.fs.mvvm.data.AbstractViewModel;
-import org.fs.mvvm.data.IUsecase;
+import org.fs.mvvm.data.UsecaseType;
 import org.fs.mvvm.listeners.Callback;
 import org.fs.mvvm.managers.BusManager;
 import org.fs.mvvm.todo.BR;
@@ -41,17 +41,17 @@ import org.fs.mvvm.todo.common.DaggerViewModelComponent;
 import org.fs.mvvm.todo.common.ViewModelModule;
 import org.fs.mvvm.todo.entities.Category;
 import org.fs.mvvm.todo.entities.Entry;
-import org.fs.mvvm.todo.events.AddEntryEvent;
-import org.fs.mvvm.todo.events.DeletedEvent;
-import org.fs.mvvm.todo.events.RecoveredEvent;
-import org.fs.mvvm.todo.events.StateChangeEvent;
+import org.fs.mvvm.todo.events.AddEntryEventType;
+import org.fs.mvvm.todo.events.DeletedEventType;
+import org.fs.mvvm.todo.events.RecoveredEventType;
+import org.fs.mvvm.todo.events.StateChangeEventType;
 import org.fs.mvvm.todo.managers.IDatabaseManager;
 import org.fs.mvvm.todo.utils.SwipeDeleteCallback;
-import org.fs.mvvm.todo.views.IAllFragmentView;
+import org.fs.mvvm.todo.views.AllFragmentViewType;
 import org.fs.mvvm.todo.views.adapters.EntryRecyclerAdapter;
 import org.fs.mvvm.utils.Objects;
 
-public final class AllFragmentViewModel extends AbstractViewModel<IAllFragmentView> {
+public final class AllFragmentViewModel extends AbstractViewModel<AllFragmentViewType> {
 
   public final static String KEY_CATEGORY = "entry.category";
 
@@ -64,13 +64,13 @@ public final class AllFragmentViewModel extends AbstractViewModel<IAllFragmentVi
   @Inject EntryRecyclerAdapter       itemSource;
   @Inject ItemTouchHelper            touchHelper;
 
-  @Inject IUsecase<List<Entry>, Observable>      usecase;
+  @Inject UsecaseType<List<Entry>, Observable> usecase;
   @Inject IDatabaseManager           dbManager;
 
   private AbstractEntity selectedItem;
   private int selectedPosition;
 
-  public AllFragmentViewModel(IAllFragmentView view) {
+  public AllFragmentViewModel(AllFragmentViewType view) {
     super(view);
   }
 
@@ -99,13 +99,13 @@ public final class AllFragmentViewModel extends AbstractViewModel<IAllFragmentVi
   @Override public void onStart() {
     if (view.isAvailable()) {
       disposable = BusManager.add((event) -> {
-        if (event instanceof AddEntryEvent) {
-          AddEntryEvent addEvent = Objects.toObject(event);
+        if (event instanceof AddEntryEventType) {
+          AddEntryEventType addEvent = Objects.toObject(event);
           //async add on non ui thread
           dataSource.add(addEvent.toEntry());
-        } else if (event instanceof StateChangeEvent) {
+        } else if (event instanceof StateChangeEventType) {
           //have to change its state
-          StateChangeEvent stateEvent = Objects.toObject(event);
+          StateChangeEventType stateEvent = Objects.toObject(event);
           int position = dataSource.indexOf(stateEvent.toEntry());
           if (position != -1) {
             //have to change its state by hand
@@ -115,13 +115,13 @@ public final class AllFragmentViewModel extends AbstractViewModel<IAllFragmentVi
           log(Log.WARN,
             String.format(Locale.ENGLISH, "%s changed.", stateEvent.toEntry().getTodoName())
           );
-        } else if (event instanceof RecoveredEvent) {
-          RecoveredEvent recoverEvent = Objects.toObject(event);
+        } else if (event instanceof RecoveredEventType) {
+          RecoveredEventType recoverEvent = Objects.toObject(event);
           if (!dataSource.contains(recoverEvent.toEntry())) {
             dataSource.add(recoverEvent.toEntry());
           }
-        } else if (event instanceof DeletedEvent) {
-          DeletedEvent deleteEvent = Objects.toObject(event);
+        } else if (event instanceof DeletedEventType) {
+          DeletedEventType deleteEvent = Objects.toObject(event);
           if (dataSource.contains(deleteEvent.toEntry())) {
             dataSource.remove(deleteEvent.toEntry());
           }
@@ -179,7 +179,7 @@ public final class AllFragmentViewModel extends AbstractViewModel<IAllFragmentVi
               );
             });
         //notify others
-        BusManager.send(new DeletedEvent(deleted));
+        BusManager.send(new DeletedEventType(deleted));
         //create message to notify user
         String ok = view.getStringResource(android.R.string.ok);
         String msg = view.getStringResource(R.string.recoverDeleteItem);
@@ -196,7 +196,7 @@ public final class AllFragmentViewModel extends AbstractViewModel<IAllFragmentVi
               .subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())
               .subscribe(x -> {
-                BusManager.send(new RecoveredEvent(deleted));
+                BusManager.send(new RecoveredEventType(deleted));
                 log(Log.ERROR,
                     String.format(Locale.ENGLISH, "%s previously deleted inserted.",
                         deleted.getTodoName())

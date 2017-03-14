@@ -17,31 +17,31 @@ package org.fs.mvvm.todo.common;
 
 import dagger.Module;
 import dagger.Provides;
-import org.fs.mvvm.data.IView;
+import org.fs.mvvm.data.ViewType;
 import org.fs.mvvm.injections.ForFragment;
 import org.fs.mvvm.todo.viewmodels.ActiveFragmentViewModel;
 import org.fs.mvvm.todo.viewmodels.AllFragmentViewModel;
 import org.fs.mvvm.todo.viewmodels.CompletedFragmentViewModel;
-import org.fs.mvvm.todo.views.IActiveFragmentView;
-import org.fs.mvvm.todo.views.IAllFragmentView;
-import org.fs.mvvm.todo.views.ICompletedFragmentView;
+import org.fs.mvvm.todo.views.ActiveFragmentViewType;
+import org.fs.mvvm.todo.views.AllFragmentViewType;
+import org.fs.mvvm.todo.views.CompletedFragmentViewType;
 import org.fs.mvvm.utils.Objects;
 
 @Module
 public class FragmentModule {
 
-  @Provides @ForFragment AllFragmentViewModel provideAllFragmentViewModel(IView view)  {
-    IAllFragmentView iview = Objects.toObject(view);
+  @Provides @ForFragment AllFragmentViewModel provideAllFragmentViewModel(ViewType view)  {
+    AllFragmentViewType iview = Objects.toObject(view);
     return new AllFragmentViewModel(iview);
   }
 
-  @Provides @ForFragment ActiveFragmentViewModel provideActiveFragmentViewModel(IView view) {
-    IActiveFragmentView iview = Objects.toObject(view);
+  @Provides @ForFragment ActiveFragmentViewModel provideActiveFragmentViewModel(ViewType view) {
+    ActiveFragmentViewType iview = Objects.toObject(view);
     return new ActiveFragmentViewModel(iview);
   }
 
-  @Provides @ForFragment CompletedFragmentViewModel provideCompletedFragmentViewModel(IView view) {
-    ICompletedFragmentView iview = Objects.toObject(view);
+  @Provides @ForFragment CompletedFragmentViewModel provideCompletedFragmentViewModel(ViewType view) {
+    CompletedFragmentViewType iview = Objects.toObject(view);
     return new CompletedFragmentViewModel(iview);
   }
 }

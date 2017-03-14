@@ -20,7 +20,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import java.util.List;
-import org.fs.mvvm.data.IUsecase;
+import org.fs.mvvm.data.UsecaseType;
 import org.fs.mvvm.listeners.Callback;
 import org.fs.mvvm.managers.AbstractManager;
 import org.fs.mvvm.todo.BuildConfig;
@@ -28,24 +28,19 @@ import org.fs.mvvm.todo.entities.Entry;
 import org.fs.mvvm.todo.managers.IDatabaseManager;
 import org.fs.mvvm.utils.Preconditions;
 
-public final class EntryCompletedUsecase extends AbstractManager implements IUsecase<List<Entry>, Single> {
+public final class EntryActiveUsecaseType extends AbstractManager implements
+    UsecaseType<List<Entry>, Single> {
 
   private Disposable disposable;
   private IDatabaseManager dbManager;
 
-  EntryCompletedUsecase(IDatabaseManager dbManager) {
+  EntryActiveUsecaseType(IDatabaseManager dbManager) {
     Preconditions.checkNotNull(dbManager, "dbManager is null");
     this.dbManager = dbManager;
   }
 
   @Override public boolean isDisposed() {
     return disposable == null || disposable.isDisposed();
-  }
-
-  public Builder newBuilder() {
-    dispose();
-    return new Builder()
-        .dbManager(dbManager);
   }
 
   @Override public void dispose() {
@@ -55,8 +50,14 @@ public final class EntryCompletedUsecase extends AbstractManager implements IUse
     }
   }
 
+  public Builder newBuilder() {
+    dispose();
+    return new Builder()
+        .dbManager(dbManager);
+  }
+
   @Override public Single<List<Entry>> sync() {
-    return dbManager.all(x -> x.getTodoState() == Entry.COMPLETED);
+    return dbManager.all(x -> x.getTodoState() == Entry.ACTIVE);
   }
 
   @Override public void async(Callback<List<Entry>> callback) {
@@ -70,16 +71,15 @@ public final class EntryCompletedUsecase extends AbstractManager implements IUse
   }
 
   @Override protected String getClassTag() {
-    return EntryCompletedUsecase.class.getSimpleName();
+    return EntryActiveUsecaseType.class.getSimpleName();
   }
 
   public static class Builder {
     private IDatabaseManager dbManager;
-
-    public Builder() {}
+    public Builder() { }
     public Builder dbManager(IDatabaseManager dbManager) { this.dbManager = dbManager; return this; }
-    public EntryCompletedUsecase build() {
-      return new EntryCompletedUsecase(dbManager);
+    public EntryActiveUsecaseType build() {
+      return new EntryActiveUsecaseType(dbManager);
     }
   }
 }

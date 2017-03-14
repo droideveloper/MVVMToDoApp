@@ -13,10 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fs.mvvm.todo.views;
+package org.fs.mvvm.todo.events;
 
-import org.fs.mvvm.data.IView;
+import org.fs.mvvm.managers.EventType;
+import org.fs.mvvm.todo.entities.Entry;
+import org.fs.mvvm.utils.Preconditions;
 
-public interface ICompletedFragmentView extends IView {
+public final class AddEntryEventType implements EventType {
 
+  private final String todoName;
+
+  public AddEntryEventType(String todoName) {
+    Preconditions.checkNotNull(todoName, "todoName is null");
+    this.todoName = todoName;
+  }
+
+  public Entry toEntry() {
+    return new Entry.Builder()
+        .todoName(todoName)
+        .todoState(Entry.ACTIVE)
+        .build();
+  }
 }

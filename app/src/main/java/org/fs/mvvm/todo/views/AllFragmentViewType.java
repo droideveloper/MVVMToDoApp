@@ -1,6 +1,6 @@
 /*
  * todos Copyright (C) 2016 Fatih.
- *
+ *  
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,11 +15,8 @@
  */
 package org.fs.mvvm.todo.views;
 
-import android.support.v4.app.FragmentManager;
-import org.fs.mvvm.data.IView;
+import org.fs.mvvm.data.ViewType;
 
-public interface IMainActivityView extends IView {
-
-  FragmentManager getSupportFragmentManager();
+public interface AllFragmentViewType extends ViewType {
 
 }

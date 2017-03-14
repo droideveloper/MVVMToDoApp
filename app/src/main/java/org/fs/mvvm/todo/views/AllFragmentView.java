@@ -39,7 +39,7 @@ import org.fs.mvvm.utils.Objects;
 import org.fs.mvvm.utils.Preconditions;
 
 public final class AllFragmentView extends AbstractFragment<AllFragmentViewModel>
-    implements IAllFragmentView {
+    implements AllFragmentViewType {
 
   @Inject AllFragmentViewModel viewModel;
   private ViewDataBinding viewDataBinding;

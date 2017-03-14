@@ -1,6 +1,6 @@
 /*
  * todos Copyright (C) 2016 Fatih.
- *  
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -13,22 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fs.mvvm.todo.events;
+package org.fs.mvvm.todo.views;
 
-import org.fs.mvvm.managers.IEvent;
-import org.fs.mvvm.todo.entities.Entry;
-import org.fs.mvvm.utils.Preconditions;
+import android.support.v4.app.FragmentManager;
+import org.fs.mvvm.data.ViewType;
 
-public final class RecoveredEvent implements IEvent {
+public interface MainActivityViewType extends ViewType {
 
-  private final Entry entry;
+  FragmentManager getSupportFragmentManager();
 
-  public RecoveredEvent(Entry entry) {
-    Preconditions.checkNotNull(entry, "entry is null");
-    this.entry = entry;
-  }
-
-  public Entry toEntry() {
-    return entry;
-  }
 }

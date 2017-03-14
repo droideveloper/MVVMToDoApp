@@ -32,7 +32,7 @@ public class SwipeDeleteCallback extends ItemTouchHelper.SimpleCallback {
     return new SwipeDeleteCallback(0, ItemTouchHelper.END | ItemTouchHelper.START, listener);
   }
 
-  private SwipeDeleteCallback(int dragDirs, int swipeDirs, OnSwipedListener listener) {
+  SwipeDeleteCallback(int dragDirs, int swipeDirs, OnSwipedListener listener) {
     super(dragDirs, swipeDirs);
     Preconditions.checkNotNull(listener, "listener is null");
     this.listener = listener;

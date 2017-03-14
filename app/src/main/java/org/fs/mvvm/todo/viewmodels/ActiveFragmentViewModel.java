@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -31,7 +30,7 @@ import java.util.List;
 import java.util.Locale;
 import javax.inject.Inject;
 import org.fs.mvvm.data.AbstractViewModel;
-import org.fs.mvvm.data.IUsecase;
+import org.fs.mvvm.data.UsecaseType;
 import org.fs.mvvm.listeners.Callback;
 import org.fs.mvvm.managers.BusManager;
 import org.fs.mvvm.todo.BR;
@@ -41,17 +40,17 @@ import org.fs.mvvm.todo.common.DaggerViewModelComponent;
 import org.fs.mvvm.todo.common.ViewModelModule;
 import org.fs.mvvm.todo.entities.Category;
 import org.fs.mvvm.todo.entities.Entry;
-import org.fs.mvvm.todo.events.AddEntryEvent;
-import org.fs.mvvm.todo.events.DeletedEvent;
-import org.fs.mvvm.todo.events.RecoveredEvent;
-import org.fs.mvvm.todo.events.StateChangeEvent;
+import org.fs.mvvm.todo.events.AddEntryEventType;
+import org.fs.mvvm.todo.events.DeletedEventType;
+import org.fs.mvvm.todo.events.RecoveredEventType;
+import org.fs.mvvm.todo.events.StateChangeEventType;
 import org.fs.mvvm.todo.managers.IDatabaseManager;
 import org.fs.mvvm.todo.utils.SwipeDeleteCallback;
-import org.fs.mvvm.todo.views.IActiveFragmentView;
+import org.fs.mvvm.todo.views.ActiveFragmentViewType;
 import org.fs.mvvm.todo.views.adapters.EntryRecyclerAdapter;
 import org.fs.mvvm.utils.Objects;
 
-public final class ActiveFragmentViewModel extends AbstractViewModel<IActiveFragmentView> {
+public final class ActiveFragmentViewModel extends AbstractViewModel<ActiveFragmentViewType> {
 
   public final static String KEY_CATEGORY = "entry.category";
 
@@ -64,10 +63,10 @@ public final class ActiveFragmentViewModel extends AbstractViewModel<IActiveFrag
   @Inject EntryRecyclerAdapter itemSource;
   @Inject ItemTouchHelper touchHelper;
 
-  @Inject IUsecase<List<Entry>, Single> usecase;
+  @Inject UsecaseType<List<Entry>, Single> usecase;
   @Inject IDatabaseManager dbManager;
 
-  public ActiveFragmentViewModel(IActiveFragmentView view) {
+  public ActiveFragmentViewModel(ActiveFragmentViewType view) {
     super(view);
   }
 
@@ -96,12 +95,12 @@ public final class ActiveFragmentViewModel extends AbstractViewModel<IActiveFrag
   @Override public void onStart() {
     if (view.isAvailable()) {
       disposable = BusManager.add((event) -> {
-        if (event instanceof AddEntryEvent) {
-          AddEntryEvent addEvent = Objects.toObject(event);
+        if (event instanceof AddEntryEventType) {
+          AddEntryEventType addEvent = Objects.toObject(event);
           dataSource.add(addEvent.toEntry());
         }
-        else if (event instanceof StateChangeEvent) {
-          StateChangeEvent stateEvent = Objects.toObject(event);
+        else if (event instanceof StateChangeEventType) {
+          StateChangeEventType stateEvent = Objects.toObject(event);
           if (stateEvent.isActive()) {
             if (!dataSource.contains(stateEvent.toEntry())) {
               dataSource.add(stateEvent.toEntry());
@@ -111,13 +110,13 @@ public final class ActiveFragmentViewModel extends AbstractViewModel<IActiveFrag
               dataSource.remove(stateEvent.toEntry());
             }
           }
-        } else if (event instanceof RecoveredEvent) {
-          RecoveredEvent recoverEvent = Objects.toObject(event);
+        } else if (event instanceof RecoveredEventType) {
+          RecoveredEventType recoverEvent = Objects.toObject(event);
           if (!dataSource.contains(recoverEvent.toEntry()) && isActive(recoverEvent.toEntry())) {
             dataSource.add(recoverEvent.toEntry());
           }
-        } else if (event instanceof DeletedEvent) {
-          DeletedEvent deleteEvent = Objects.toObject(event);
+        } else if (event instanceof DeletedEventType) {
+          DeletedEventType deleteEvent = Objects.toObject(event);
           if (dataSource.contains(deleteEvent.toEntry())) {
             dataSource.remove(deleteEvent.toEntry());
           }
@@ -174,7 +173,7 @@ public final class ActiveFragmentViewModel extends AbstractViewModel<IActiveFrag
                       deleted.getTodoName(), String.valueOf(x))
               );
             });
-        BusManager.send(new DeletedEvent(deleted));
+        BusManager.send(new DeletedEventType(deleted));
         //create message to notify user
         String ok = view.getStringResource(android.R.string.ok);
         String msg = view.getStringResource(R.string.recoverDeleteItem);
@@ -191,7 +190,7 @@ public final class ActiveFragmentViewModel extends AbstractViewModel<IActiveFrag
               .subscribeOn(Schedulers.io())
               .observeOn(AndroidSchedulers.mainThread())
               .subscribe(x -> {
-                BusManager.send(new RecoveredEvent(deleted));
+                BusManager.send(new RecoveredEventType(deleted));
                 log(Log.ERROR,
                     String.format(Locale.ENGLISH, "%s previously deleted inserted.",
                         deleted.getTodoName())

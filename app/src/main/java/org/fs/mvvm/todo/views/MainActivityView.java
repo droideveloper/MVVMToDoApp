@@ -33,7 +33,7 @@ import org.fs.mvvm.todo.viewmodels.MainActivityViewModel;
 import org.fs.mvvm.utils.Objects;
 
 public final class MainActivityView extends AbstractActivity<MainActivityViewModel>
-    implements IMainActivityView {
+    implements MainActivityViewType {
 
   @Inject MainActivityViewModel viewModel;
   @Inject ViewDataBinding viewDataBinding;

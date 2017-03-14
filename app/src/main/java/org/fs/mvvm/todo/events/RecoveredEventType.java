@@ -15,14 +15,16 @@
  */
 package org.fs.mvvm.todo.events;
 
-import org.fs.mvvm.managers.IEvent;
+import org.fs.mvvm.managers.EventType;
 import org.fs.mvvm.todo.entities.Entry;
+import org.fs.mvvm.utils.Preconditions;
 
-public final class DeletedEvent implements IEvent {
+public final class RecoveredEventType implements EventType {
 
   private final Entry entry;
 
-  public DeletedEvent(Entry entry) {
+  public RecoveredEventType(Entry entry) {
+    Preconditions.checkNotNull(entry, "entry is null");
     this.entry = entry;
   }
 

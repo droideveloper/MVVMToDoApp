@@ -15,8 +15,8 @@
  */
 package org.fs.mvvm.todo.views;
 
-import org.fs.mvvm.data.IView;
+import org.fs.mvvm.data.ViewType;
 
-public interface IActiveFragmentView extends IView {
+public interface ActiveFragmentViewType extends ViewType {
 
 }
