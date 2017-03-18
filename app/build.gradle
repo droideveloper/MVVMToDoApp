@@ -1,6 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
-apply plugin: 'me.tatarka.retrolambda'
 
 android {
   compileSdkVersion 25
@@ -12,11 +10,17 @@ android {
     targetSdkVersion 25
     versionCode 1
     versionName "1.0"
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    jackOptions {
+      enabled true
+    }
   }
 
   dataBinding {
     enabled true
+  }
+
+  lintOptions {
+    abortOnError false
   }
 
   buildTypes {
@@ -30,10 +34,6 @@ android {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
-
-  retrolambda {
-    javaVersion JavaVersion.VERSION_1_7
-  }
 }
 
 dependencies {
@@ -44,10 +44,12 @@ dependencies {
 
   compile project(':mvvm')
 
-  compile 'com.android.support:appcompat-v7:25.2.0'
+  compile 'net.sourceforge.streamsupport:streamsupport:1.5.1'
+
+  compile 'com.android.support:appcompat-v7:25.3.0'
   testCompile 'junit:junit:4.12'
 
-  apt 'com.google.dagger:dagger-compiler:2.9'
   compile 'com.google.dagger:dagger:2.9'
   provided 'javax.annotation:jsr250-api:1.0'
+  annotationProcessor 'com.google.dagger:dagger-compiler:2.9'
 }

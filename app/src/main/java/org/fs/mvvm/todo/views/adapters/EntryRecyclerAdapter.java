@@ -19,8 +19,9 @@ import android.content.Context;
 import android.databinding.ObservableList;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.LayoutRes;
+import io.reactivex.Observer;
 import org.fs.mvvm.common.AbstractRecyclerBindingAdapter;
-import org.fs.mvvm.managers.BusManager;
+import org.fs.mvvm.managers.SelectedEventType;
 import org.fs.mvvm.todo.BR;
 import org.fs.mvvm.todo.BuildConfig;
 import org.fs.mvvm.todo.R;
@@ -45,8 +46,8 @@ public final class EntryRecyclerAdapter
   }
 
   @Override protected EntryRecyclerViewHolder createDataViewHolder(ViewDataBinding viewDataBinding,
-      BusManager busManager, int viewType) {
-    return new EntryRecyclerViewHolder(viewDataBinding, busManager);
+      Observer<SelectedEventType<Entry>> observer, int viewType) {
+    return new EntryRecyclerViewHolder(viewDataBinding, observer);
   }
 
   @LayoutRes @Override protected int layoutResource(int viewType) {

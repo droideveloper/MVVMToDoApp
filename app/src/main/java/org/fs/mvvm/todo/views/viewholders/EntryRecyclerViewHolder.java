@@ -16,13 +16,14 @@
 package org.fs.mvvm.todo.views.viewholders;
 
 import android.databinding.ViewDataBinding;
+import io.reactivex.Observer;
 import org.fs.mvvm.common.AbstractRecyclerBindingHolder;
-import org.fs.mvvm.managers.BusManager;
+import org.fs.mvvm.managers.SelectedEventType;
 import org.fs.mvvm.todo.entities.Entry;
 
 public final class EntryRecyclerViewHolder extends AbstractRecyclerBindingHolder<Entry> {
 
-  public EntryRecyclerViewHolder(ViewDataBinding viewDataBinding, BusManager busManager) {
-    super(viewDataBinding, busManager);
+  public EntryRecyclerViewHolder(ViewDataBinding viewDataBinding, Observer<SelectedEventType<Entry>> observer) {
+    super(viewDataBinding, observer);
   }
 }
