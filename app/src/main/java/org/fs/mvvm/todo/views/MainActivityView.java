@@ -109,7 +109,7 @@ public final class MainActivityView extends AbstractActivity<MainActivityViewMod
     return MainActivityView.class.getSimpleName();
   }
 
-  private View view() {
+  @Override protected View view() {
     return viewDataBinding != null ? viewDataBinding.getRoot() : null;
   }
 }

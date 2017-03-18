@@ -51,6 +51,8 @@ import org.fs.mvvm.todo.views.AllFragmentViewType;
 import org.fs.mvvm.todo.views.adapters.EntryRecyclerAdapter;
 import org.fs.mvvm.utils.Objects;
 
+import static android.R.attr.data;
+
 public final class AllFragmentViewModel extends AbstractViewModel<AllFragmentViewType> {
 
   public final static String KEY_CATEGORY = "entry.category";
@@ -60,12 +62,12 @@ public final class AllFragmentViewModel extends AbstractViewModel<AllFragmentVie
   ObservableList<Entry> dataSource = new ObservableArrayList<>();
 
   @Inject RecyclerView.LayoutManager layoutManager;
-  @Inject RecyclerView.ItemAnimator  itemAnimator;
-  @Inject EntryRecyclerAdapter       itemSource;
-  @Inject ItemTouchHelper            touchHelper;
+  @Inject RecyclerView.ItemAnimator itemAnimator;
+  @Inject EntryRecyclerAdapter itemSource;
+  @Inject ItemTouchHelper touchHelper;
 
-  @Inject UsecaseType<List<Entry>, Observable> usecase;
-  @Inject IDatabaseManager           dbManager;
+  @Inject UsecaseType<List<Entry>> usecase;
+  @Inject IDatabaseManager dbManager;
 
   private AbstractEntity selectedItem;
   private int selectedPosition;
@@ -90,8 +92,7 @@ public final class AllFragmentViewModel extends AbstractViewModel<AllFragmentVie
 
   @Override public void onCreate() {
     DaggerViewModelComponent.builder()
-        .viewModelModule(new ViewModelModule(view.getContext(),
-            category.getCategoryId(), dataSource, getSwipeListener()))
+        .viewModelModule(new ViewModelModule(view.getContext(), dataSource, getSwipeListener()))
         .build()
         .inject(this);
   }
@@ -127,29 +128,24 @@ public final class AllFragmentViewModel extends AbstractViewModel<AllFragmentVie
           }
         }
       });
-      //execute use case all time
-      usecase.async(new Callback<List<Entry>>() {
-        @Override public void onSuccess(List<Entry> data) {
+      //execute usecase every time
+      usecase.async()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(items -> {
           if (!Objects.isNullOrEmpty(dataSource)) {
             dataSource.clear();
           }
-          if (!Objects.isNullOrEmpty(data)) {
-            dataSource.addAll(data);
+          if (!Objects.isNullOrEmpty(items)) {
+            dataSource.addAll(items);
           }
-        }
-
-        @Override public void onError(Throwable error) {
+        }, error -> {
           if (view.isAvailable()) {
             String errorStr = view.getStringResource(R.string.addError);
             view.showError(errorStr);
             log(error);
           }
-        }
-
-        @Override public void onCompleted() {
-          //no-op
-        }
-      });
+        });
     }
   }
 
@@ -158,7 +154,6 @@ public final class AllFragmentViewModel extends AbstractViewModel<AllFragmentVie
       BusManager.remove(disposable);
       disposable = null;
     }
-    usecase.dispose();
   }
 
   private SwipeDeleteCallback.OnSwipedListener getSwipeListener() {

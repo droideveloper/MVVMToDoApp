@@ -23,18 +23,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import dagger.Module;
 import dagger.Provides;
-import io.reactivex.Observable;
-import io.reactivex.Single;
 import java.util.List;
 import org.fs.mvvm.data.UsecaseType;
 import org.fs.mvvm.injections.ForFragment;
-import org.fs.mvvm.todo.entities.Category;
 import org.fs.mvvm.todo.entities.Entry;
 import org.fs.mvvm.todo.managers.DatabaseManager;
 import org.fs.mvvm.todo.managers.IDatabaseManager;
-import org.fs.mvvm.todo.usecases.EntryActiveUsecaseType;
-import org.fs.mvvm.todo.usecases.EntryAllUsecaseType;
-import org.fs.mvvm.todo.usecases.EntryCompletedUsecaseType;
+import org.fs.mvvm.todo.usecases.EntryUsecase;
 import org.fs.mvvm.todo.utils.SwipeDeleteCallback;
 import org.fs.mvvm.todo.views.adapters.EntryRecyclerAdapter;
 
@@ -42,13 +37,11 @@ import org.fs.mvvm.todo.views.adapters.EntryRecyclerAdapter;
 public class ViewModelModule {
 
   private final Context context;
-  private final int categoryId;
   private final ObservableList<Entry> dataSource;
   private final SwipeDeleteCallback.OnSwipedListener listener;
 
-  public ViewModelModule(Context context, int categoryId, ObservableList<Entry> dataSource, SwipeDeleteCallback.OnSwipedListener listener) {
+  public ViewModelModule(Context context, ObservableList<Entry> dataSource, SwipeDeleteCallback.OnSwipedListener listener) {
     this.context = context;
-    this.categoryId = categoryId;
     this.dataSource = dataSource;
     this.listener = listener;
   }
@@ -57,26 +50,8 @@ public class ViewModelModule {
     return new DatabaseManager(context);
   }
 
-  @Provides @ForFragment UsecaseType<List<Entry>, Single> provideUsecaseSingle(IDatabaseManager dbManager) {
-    if (categoryId == Category.ACTIVE) {
-      return new EntryActiveUsecaseType.Builder()
-          .dbManager(dbManager)
-          .build();
-    } else if (categoryId == Category.COMPLETED) {
-      return new EntryCompletedUsecaseType.Builder()
-          .dbManager(dbManager)
-          .build();
-    }
-    return null;
-  }
-
-  @Provides @ForFragment UsecaseType<List<Entry>, Observable> provideUsecaseObservable(IDatabaseManager dbManager) {
-    if (categoryId == Category.ALL) {
-      return new EntryAllUsecaseType.Builder()
-          .dbManager(dbManager)
-          .build();
-    }
-    return null;
+  @Provides @ForFragment UsecaseType<List<Entry>> provideEntryUsecase(IDatabaseManager dbManager) {
+    return new EntryUsecase(dbManager);
   }
 
   @Provides @ForFragment EntryRecyclerAdapter provideRecyclerAdapter() {

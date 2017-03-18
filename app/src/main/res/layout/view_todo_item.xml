@@ -40,9 +40,10 @@
           android:layout_gravity="center_vertical"
           bindings:command="@{item.changeStateCommand}"
           android:alpha="@{item.todoState == Entry.COMPLETED ? 0.4f : 1.0f}"
-          android:checked="@{item.todoState == Entry.COMPLETED}"
-          bindings:bind='@{"binding=background, relativeSource={source=textColor, ancestor={typeof=TextView, level=1}}"}'
-          bindings:parser="@{item.colorDrawableParser}" />
+          android:checked="@{item.todoState == Entry.COMPLETED}" />
+
+    <!--bindings:bind='@{"binding=background, relativeSource={source=textColor, ancestor={typeof=TextView, level=1}}"}'
+        bindings:parser="@{item.colorDrawableParser}" /-->
 
       <android.support.v7.widget.AppCompatTextView
           android:layout_width="match_parent"

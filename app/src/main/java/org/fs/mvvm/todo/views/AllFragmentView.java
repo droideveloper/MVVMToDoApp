@@ -132,7 +132,7 @@ public final class AllFragmentView extends AbstractFragment<AllFragmentViewModel
     return AllFragmentView.class.getSimpleName();
   }
 
-  private View view() {
+  @Override protected View view() {
     return viewDataBinding != null ? viewDataBinding.getRoot() : null;
   }
 }

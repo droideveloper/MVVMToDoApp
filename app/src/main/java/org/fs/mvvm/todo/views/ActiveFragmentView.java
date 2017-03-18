@@ -133,7 +133,7 @@ public final class ActiveFragmentView extends AbstractFragment<ActiveFragmentVie
     return ActiveFragmentView.class.getSimpleName();
   }
 
-  private View view() {
+  @Override protected View view() {
     return viewDataBinding != null ? viewDataBinding.getRoot() : null;
   }
 }
