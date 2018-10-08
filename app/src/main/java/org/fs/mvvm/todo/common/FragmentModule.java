@@ -18,7 +18,7 @@ package org.fs.mvvm.todo.common;
 import dagger.Module;
 import dagger.Provides;
 import org.fs.mvvm.data.ViewType;
-import org.fs.mvvm.injections.ForFragment;
+import org.fs.mvvm.scope.ForFragment;
 import org.fs.mvvm.todo.viewmodels.ActiveFragmentViewModel;
 import org.fs.mvvm.todo.viewmodels.AllFragmentViewModel;
 import org.fs.mvvm.todo.viewmodels.CompletedFragmentViewModel;

@@ -16,8 +16,7 @@
 package org.fs.mvvm.todo.common;
 
 import dagger.Component;
-import org.fs.mvvm.injections.AbstractActivityModule;
-import org.fs.mvvm.injections.ForActivity;
+import org.fs.mvvm.scope.ForActivity;
 import org.fs.mvvm.todo.views.MainActivityView;
 
 @ForActivity

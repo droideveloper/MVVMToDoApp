@@ -18,7 +18,7 @@ package org.fs.mvvm.todo.common;
 import dagger.Module;
 import dagger.Provides;
 import org.fs.mvvm.data.ViewType;
-import org.fs.mvvm.injections.ForActivity;
+import org.fs.mvvm.scope.ForActivity;
 import org.fs.mvvm.todo.viewmodels.MainActivityViewModel;
 import org.fs.mvvm.todo.views.MainActivityViewType;
 import org.fs.mvvm.utils.Objects;

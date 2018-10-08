@@ -23,7 +23,6 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import javax.inject.Inject;
 import org.fs.mvvm.common.AbstractActivity;
-import org.fs.mvvm.injections.AbstractActivityModule;
 import org.fs.mvvm.todo.BuildConfig;
 import org.fs.mvvm.todo.BR;
 import org.fs.mvvm.todo.R;

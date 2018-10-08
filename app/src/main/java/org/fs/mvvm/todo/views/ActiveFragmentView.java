@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import javax.inject.Inject;
 import org.fs.mvvm.common.AbstractFragment;
-import org.fs.mvvm.injections.AbstractFragmentModule;
 import org.fs.mvvm.todo.BR;
 import org.fs.mvvm.todo.BuildConfig;
 import org.fs.mvvm.todo.R;

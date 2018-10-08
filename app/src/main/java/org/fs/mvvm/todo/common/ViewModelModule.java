@@ -25,7 +25,7 @@ import dagger.Module;
 import dagger.Provides;
 import java.util.List;
 import org.fs.mvvm.data.UsecaseType;
-import org.fs.mvvm.injections.ForFragment;
+import org.fs.mvvm.scope.ForFragment;
 import org.fs.mvvm.todo.entities.Entry;
 import org.fs.mvvm.todo.managers.DatabaseManager;
 import org.fs.mvvm.todo.managers.IDatabaseManager;

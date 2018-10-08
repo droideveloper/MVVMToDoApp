@@ -26,7 +26,7 @@ import io.reactivex.schedulers.Schedulers;
 import java.util.Locale;
 import org.fs.mvvm.data.AbstractViewModel;
 import org.fs.mvvm.listeners.OnSoftKeyboardAction;
-import org.fs.mvvm.managers.BusManager;
+import org.fs.mvvm.core.BusManager;
 import org.fs.mvvm.todo.BR;
 import org.fs.mvvm.todo.BuildConfig;
 import org.fs.mvvm.todo.R;
