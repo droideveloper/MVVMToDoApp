@@ -15,7 +15,7 @@
  */
 package org.fs.mvvm.todo.events;
 
-import org.fs.mvvm.managers.EventType;
+import org.fs.mvvm.core.EventType;
 import org.fs.mvvm.todo.entities.Entry;
 import org.fs.mvvm.utils.Preconditions;
 

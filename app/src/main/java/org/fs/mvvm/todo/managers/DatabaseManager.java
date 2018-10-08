@@ -24,7 +24,6 @@ import io.reactivex.Single;
 import java.sql.SQLException;
 import java.util.List;
 import java8.util.function.Predicate;
-import org.fs.mvvm.common.AbstractOrmliteHelper;
 import org.fs.mvvm.todo.BuildConfig;
 import org.fs.mvvm.todo.R;
 import org.fs.mvvm.todo.entities.Entry;

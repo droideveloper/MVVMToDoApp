@@ -15,7 +15,7 @@
  */
 package org.fs.mvvm.todo.events;
 
-import org.fs.mvvm.managers.EventType;
+import org.fs.mvvm.core.EventType;
 import org.fs.mvvm.todo.entities.Entry;
 
 public final class DeletedEventType implements EventType {

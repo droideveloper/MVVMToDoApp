@@ -31,7 +31,7 @@ import java.util.Locale;
 import org.fs.mvvm.commands.RelayCommandType;
 import org.fs.mvvm.common.AbstractEntity;
 import org.fs.mvvm.data.ConverterType;
-import org.fs.mvvm.managers.BusManager;
+import org.fs.mvvm.core.BusManager;
 import org.fs.mvvm.todo.BR;
 import org.fs.mvvm.todo.BuildConfig;
 import org.fs.mvvm.todo.events.StateChangeEventType;

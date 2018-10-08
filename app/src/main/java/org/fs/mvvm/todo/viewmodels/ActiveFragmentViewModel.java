@@ -31,7 +31,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 import org.fs.mvvm.data.AbstractViewModel;
 import org.fs.mvvm.data.UsecaseType;
-import org.fs.mvvm.managers.BusManager;
+import org.fs.mvvm.core.BusManager;
 import org.fs.mvvm.todo.BR;
 import org.fs.mvvm.todo.BuildConfig;
 import org.fs.mvvm.todo.R;
